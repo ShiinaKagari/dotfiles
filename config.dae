@@ -1,0 +1,182 @@
+global {
+    ##### 软件选项。
+
+    # 监听的 tproxy 端口。不是 HTTP/SOCKS 端口，仅供 eBPF 程序使用.
+    # 一般情况下，你不需要使用它。
+    tproxy_port: 12345
+
+    # 设为 true 来避免意外的流量进入 tproxy 端口。 设为 false 以配合用户自定义的 iptables tproxy 规则。
+    tproxy_port_protect: true
+
+    # 若非 0，dae 发出的流量会打上 SO_MARK。 这有助于使用 iptables tproxy 规则时避免流量回环。
+    so_mark_from_dae: 1
+
+    # 日志等级: error, warn, info, debug, trace。
+    log_level: info
+
+    # 禁用等待网络以拉取订阅。
+    disable_waiting_network: false
+
+    ##### 接口和内核选项。
+
+    # 绑定的 LAN 接口。使用它来代理局域网设备。
+    # 多个接口使用 "," 分隔。
+    lan_interface: virbr0,wlan0
+
+    # 绑定的 WAN 接口. 使用它来代理本机。
+    # 多个接口使用 "," 分隔。使用 "auto" 自动检测接口.
+    wan_interface: auto
+
+    # 自动配置 Linux 的内核选项（如 ip_forward 和 send_redirects）。
+    # 参考https://github.com/daeuniverse/dae/blob/main/docs/en/user-guide/kernel-parameters.md
+    auto_config_kernel_parameter: true
+
+
+    ##### 节点连通性检测。
+
+    # 如果你本地网络为双栈，URL的主机应该同时支持 IPv4 和 IPv6。
+    # 第一个是 URL，如果在其后填写了 IP 地址，代表对 URL 中 Host 的固定解析。
+    # 考虑到流量消耗，推荐使用具有任播且响应简短的站点。
+    #tcp_check_url: 'http://cp.cloudflare.com'
+    tcp_check_url: 'http://cp.cloudflare.com,1.1.1.1,2606:4700:4700::1111'
+
+    # 用于 `tcp_check_url` 的 HTTP 请求方法。 默认使用 'HEAD'，因为一些服务器实现不统计该类型流量。
+    tcp_check_http_method: HEAD
+
+    # 该 DNS 用于检测节点的 UDP 连通性。若包含 tcp 的 DNS，同样用于检测节点的 TCP DNS 连通性。
+    # 第一个是 URL，如果在其后填写了 IP 地址，代表对 URL 中 Host 的固定解析。
+    # 如果你本地网络为双栈，DNS 服务器应同时支持 IPv4 和 IPv6。
+    #udp_check_dns: 'dns.google.com:53'
+    udp_check_dns: 'dns.google.com:53,8.8.8.8,2001:4860:4860::8888'
+
+    # 检测间隔
+    check_interval: 600s
+
+    # 仅在 new_latency <= old_latency - tolerance 时组内切换节点。
+    check_tolerance: 50ms
+
+
+    ##### 连接选项。
+
+    # dial_mode 选项为:
+    # 1. "ip"。 使用 DNS 查询得到的 IP 直接发送代理。这允许 ipv4、ipv6 分别选择最佳路径，并使应用程序请求的 IP 版本满足预期。
+    #       例如，如果使用 curl-4 ip.sb，将通过代理请求 IPv4 并获得 IPv4 响应。curl-6 ip.sb 将请求 IPv6。若节点支持IPv6，这可能会解决一些奇怪的全锥问题。在此模式下将禁用嗅探。
+    # 2. "domain"。 使用嗅探到的域名发送代理。若 DNS 环境不纯净，这将在很大程度上缓解 DNS 污染问题。通常，这种模式会带来更快的代理响应，因为代理会在远程重新解析域名，从而获得更好的 IP 连接结果。此策略不影响路由，也就是说，域名重写将在路由的流量拆分后进行， dae 不会重新路由。
+    # 3. "domain+"。 基于 domain 模式但不会检查嗅探得到域名的真实性。 对于 DNS 请求不经过 dae 但想要更快的代理响应的用户有用。但是， 若 DNS 请求不经过 dae，基于域名的流量拆分将失效。
+    # 4. "domain++"。 基于 domain+ 模式但会根据嗅探到的域名重新进行流量路由，以部分恢复基于域名的流量拆分能力。对于直连流量无效且会占用更多的 CPU 资源。
+    dial_mode: domain
+
+    # 允许不安全的 TLS 证书. 非须勿用.
+    allow_insecure: false
+
+    # 嗅探第一个数据的超时。若 dial_mode 为 ip 则该值总为 0。若局域网延迟较高，应调高它。
+    sniffing_timeout: 100ms
+
+    # TLS 实现. 设为 tls 以使用 Go's crypto/tls。设为 utls 以使用 uTLS, 可以模拟浏览器的 Client Hello、
+    tls_implementation: utls
+
+    # uTLS 模拟的 Client Hello ID。 仅在 tls_implementation 设为 utls时 生效。
+    # 参考: https://github.com/daeuniverse/dae/blob/331fa23c16/component/outbound/transport/tls/utls.go#L17
+    utls_imitate: chrome_auto
+  }
+
+# Use alidns for all DNS queries and fallback to googledns if pollution result detected.
+dns {
+  upstream {
+    googledns: 'tcp+udp://dns.google:53'
+    alidns: 'udp://dns.alidns.com:53'
+  }
+  routing {
+    # According to the request of dns query, decide to use which DNS upstream.
+    # Match rules from top to bottom.
+    request {
+      # fallback is also called default.
+      fallback: alidns
+    }
+    # According to the response of dns query, decide to accept or re-lookup using another DNS upstream.
+    # Match rules from top to bottom.
+    response {
+      # Trusted upstream. Always accept its result.
+      upstream(googledns) -> accept
+      # Possibly polluted, re-lookup using googledns.
+      ip(geoip:private) && !qname(geosite:cn) -> googledns
+      # fallback is also called default.
+      fallback: accept
+    }
+  }
+}
+group {
+  proxy {
+   # filter: subtag(XSUS) && !name(ragex: "剩余" | "过期" | "套餐" | "流量" | "续费" | "有效期" |"到期“ | ”使用“)
+    policy: min_moving_avg
+  }
+  claude{
+    filter: !name(keyword: "香港" ,keyword: "hk",keyword: "HK",keyword:"套餐",keyword:"流量")
+    policy: min_moving_avg
+  }
+}
+
+
+routing {
+### 发送到DNS服务器的请求b不劫持
+# pname(systemd-resolved) && dip(127.0.0.53) ->direct
+### 出网流量不劫持
+pname(systemd-networkd) -> direct
+
+### 需要直连的软件 ###
+pname(frpc, frps) -> direct(must)
+pname(localsend) -> direct(must)
+l4proto(udp) && dport(443) -> block
+
+### 必须直连
+dip(geoip:private) -> direct(must)
+dip(geoip:cn) -> direct
+domain(geosite:cn) && !domain(geosite:google) -> direct
+dip(224.0.0.0/3, 'ff00::/8') -> direct
+domain(geosite:connectivity-check) -> direct
+domain(keyword:distfiles.gentoocn) -> direct
+# 谷歌相关规则（简化版）
+domain(geosite:google) -> proxy
+domain(suffix:google.com) ->proxy(must)
+domain(suffix:google.cn) -> direct
+# 其他代理规则
+domain(geosite:telegram) -> proxy
+domain(suffix:telegra.ph) -> proxy
+pname(telegram-desktop) -> proxy
+domain(geosite:twitter) -> proxy
+domain(geosite:github) -> proxy
+domain(geosite:openai) -> proxy
+domain(suffix:anthropic.com) -> claude
+domain(suffix:claude.com) -> claude
+domain(keyword:cdn.usefathom.com) -> claude
+domain(suffix:claude.ai) -> claude
+domain(geosite:facebook) -> proxy
+domain(geosite:steam) -> proxy
+domain(geosite:docker) -> proxy
+domain(keyword:letitfly) -> proxy
+# 手动规则
+domain(suffix:jsdelivr.net) -> proxy
+domain(keyword:tryhackme,hackthebox) -> proxy
+domain(keyword:greasyfork) -> proxy
+domain(suffix:onedrive.com, full:onedrive.live.com) -> proxy
+domain(suffix:hutao.cloud) -> proxy
+domain(keyword:forum.manjaro.org, suffix:redhat.com, suffix:pling.com) -> proxy
+domain(keyword:pixiv) -> proxy
+domain(keyword:vmware) -> proxy
+domain(suffix:t.me) -> proxy
+domain(keyword:sourceforge) -> proxy
+domain(suffix:v2ex.com) -> proxy
+domain(suffix:waydro.id) -> proxy
+domain(suffix:ctf-wiki.org) -> proxy
+domain(keyword:e-hentai,nyaa.si,nhentai,dlsite,ci-en) -> proxy
+domain(suffix:rule34video.com, patreon.com, iwara.tv, south-plus.net) -> proxy
+domain(keyword:javdb,fanbox) -> proxy(must)
+# Telegram IP段
+dip(91.108.56.0/22, 91.108.4.0/22, 91.108.8.0/22, 91.108.16.0/22, 91.108.12.0/22, 149.154.160.0/20, 91.105.192.0/23, 91.108.20.0/22, 185.76.151.0/24) -> proxy
+fallback: direct
+}
+
+subscription{
+  XSUS: "http-file://23.145.248.238:13389/api/v1/client/subscribe?token=f65acba6dea5a7ae397f66a7ab51d88a"
+}
+
