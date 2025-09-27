@@ -21,7 +21,7 @@ global {
 
     # 绑定的 LAN 接口。使用它来代理局域网设备。
     # 多个接口使用 "," 分隔。
-    lan_interface: virbr0,wlan0
+    lan_interface: virbr0,wlan0,waydroid0
 
     # 绑定的 WAN 接口. 使用它来代理本机。
     # 多个接口使用 "," 分隔。使用 "auto" 自动检测接口.
@@ -118,7 +118,7 @@ group {
 
 
 routing {
-### 发送到DNS服务器的请求b不劫持
+### 发送到DNS服务器的请求不劫持
 pname(systemd-resolved) && dip(127.0.0.53) ->direct
 ### 出网流量不劫持
 pname(systemd-networkd) -> direct
@@ -135,6 +135,7 @@ domain(geosite:cn) && !domain(geosite:google) -> direct
 dip(224.0.0.0/3, 'ff00::/8') -> direct
 domain(geosite:connectivity-check) -> direct
 domain(keyword:distfiles.gentoocn) -> direct
+
 # 谷歌相关规则（简化版）
 domain(geosite:google) -> proxy
 domain(suffix:google.com) ->proxy(must)

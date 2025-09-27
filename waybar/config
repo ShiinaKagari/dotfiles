@@ -1,14 +1,17 @@
 {
     "layer": "top",
     "position": "top",
-    "spacing": 2,
-    "margin-top": 1,
+    "spacing": 0,
+    "margin-top": 0,
     "margin-left": 1,
     "margin-right": 1,
-    "margin-bottom": 1,
+    "margin-bottom": 0,
     "height": 24,
     "modules-left": [
-        "hyprland/window"
+        "hyprland/window",
+        "memory",
+        "cpu",
+        "hyprland/workspace-taskbar"
     ],
     "modules-center": [
         "hyprland/workspaces"
@@ -19,27 +22,40 @@
         "wireplumber#source",
         "backlight",
         "network",
-        "memory",
-        "cpu",
-        "power-profiles-daemon",
         "battery",
+        "power-profiles-daemon",
         "clock"
     ],
     "hyprland/workspaces": {
         "format": "{icon}",
         "persistent-workspaces": {
-            "*": 12
+            "*": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12
+            ],
         },
         "on-click": "activate",
         "on-scroll-up": "hyprctl dispatch workspace e+1",
         "on-scroll-down": "hyprctl dispatch workspace e-1",
         "format-icons": {
             "1": "\uf30d",
-            "2": "\uf121",
-            "3": "\uf484",
-            "4": "\ue69f",
-            "5": "\uf11b",
-            "6": "\uf013",
+            "2": "\ue217",
+            "3": "\uf121",
+            "4": "\uf484",
+            "5": "\ue69f",
+            "6": "\uf11b",
+            "7": "\uf013",
+            "8": "\udb80\udfc6",
             "9": "\udb80\udc32",
             "10": "\uf327",
             "11": "\uf302",
@@ -51,8 +67,8 @@
         "separate-outputs": true
     },
     "tray": {
-        "icon-size": 21,
-        "spacing": 10
+        "icon-size": 16,
+        "spacing": 8
     },
     "clock": {
         "interval": 1,

@@ -12,11 +12,10 @@ TERM = "xterm-256color"
 size = 12
 
 [font.bold]
-style = "SemiBold"
+family = "SauceCodePro Nerd Font Bold"
 
 [font.normal]
-family = "Inconsolata"
-style = "Regular"
+family = "SauceCodePro Nerd Font"
 
 [[keyboard.bindings]]
 action = "Paste"
@@ -65,10 +64,10 @@ mods = "Control|Shift"
 program = "/usr/bin/zsh"
 
 [window]
-opacity = 0.6
+opacity = 0.7333
 
 [window.padding]
-x = 24
-y = 16
+x = 12
+y = 8
 
 [terminal]
