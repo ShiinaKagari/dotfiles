@@ -1,21 +1,14 @@
-# import = ["~/.config/alacritty/base16_default_dark.toml"]
-# import = ["~/.config/alacritty/citylights.toml"] 
 
 [cursor.style]
 blinking = "Always"
 shape = "Underline"
 
-[env]
-TERM = "xterm-256color"
-
 [font]
-size = 12
-
-[font.bold]
-family = "SauceCodePro Nerd Font Bold"
+size = 11.5
 
 [font.normal]
-family = "SauceCodePro Nerd Font"
+family = "SauceCodePro Nerd Font Mono"
+style = "Regular"
 
 [[keyboard.bindings]]
 action = "Paste"
@@ -60,14 +53,15 @@ command = { program = "alacritty", args = ["msg", "config", "-r"] }
 key = "R"
 mods = "Control|Shift"
 
-[terminal.shell]
-program = "/usr/bin/zsh"
+[general]
+import = ["~/.config/alacritty/base16_default_dark.toml"]
+# import = ["~/.config/alacritty/citylights.toml"] 
 
 [window]
-opacity = 0.7333
+opacity = 0.75
 
 [window.padding]
-x = 12
-y = 8
+x = 4
+y = 2
 
 [terminal]
