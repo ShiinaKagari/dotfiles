@@ -8,12 +8,12 @@
     "margin-bottom": 0,
     "height": 32,
     "modules-left": [
-        "wlr/window",
+        "hyprland/window",
         "memory",
         "cpu"
     ],
     "modules-center": [
-        "niri/workspaces"
+        "hyprland/workspaces"
     ],
     "modules-right": [
         "tray",
@@ -25,6 +25,46 @@
         "power-profiles-daemon",
         "clock"
     ],
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "persistent-workspaces": {
+            "*": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12
+            ]
+        },
+        "on-click": "activate",
+        "on-scroll-up": "hyprctl dispatch workspace e+1",
+        "on-scroll-down": "hyprctl dispatch workspace e-1",
+        "format-icons": {
+            "1": "\uf30d",
+            "2": "\ue217",
+            "3": "\uf121",
+            "4": "\uf484",
+            "5": "\ue69f",
+            "6": "\uf11b",
+            "7": "\uf013",
+            "8": "\udb80\udfc6",
+            "9": "\udb80\udc32",
+            "10": "\uf327",
+            "11": "\uf302",
+            "12": "\uf17a"
+        }
+    },
+    "hyprland/window": {
+        "format": "\uf105 {initialTitle}",
+        "separate-outputs": true
+    },
     "tray": {
         "icon-size": 16,
         "spacing": 8
