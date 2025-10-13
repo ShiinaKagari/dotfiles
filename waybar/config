@@ -8,23 +8,44 @@
     "margin-bottom": 0,
     "height": 32,
     "modules-left": [
-        "wlr/window",
-        "memory",
-        "cpu"
-    ],
-    "modules-center": [
+        "niri/window",
         "niri/workspaces"
     ],
+    "modules-center": [
+        "memory",
+        "clock",
+        "cpu"
+    ],
     "modules-right": [
-        "tray",
+        "network",
+        "backlight",
+        "battery",
         "pulseaudio#sink",
         "wireplumber#source",
-        "backlight",
-        "network",
-        "battery",
         "power-profiles-daemon",
-        "clock"
+        "tray"
     ],
+    "niri/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "1": "\uf30d",
+            "2": "\ue217",
+            "3": "\uf121",
+            "4": "\uf484",
+            "5": "\ue69f",
+            "6": "\uf11b",
+            "7": "\uf013",
+            "8": "\udb80\udfc6",
+            "9": "\udb80\udc32",
+            "10": "\uf327",
+            "11": "\uf302",
+            "12": "\uf17a"
+        }
+    },
+    "niri/window": {
+        "format": "\uf105 {app_id}",
+        "separate-outputs": false
+    },
     "tray": {
         "icon-size": 16,
         "spacing": 8

@@ -119,7 +119,7 @@ group {
 
 routing {
 ### 发送到DNS服务器的请求不劫持
-pname(systemd-resolved) && dip(127.0.0.53) ->direct
+dip(127.0.0.53) ->direct
 ### 出网流量不劫持
 pname(systemd-networkd) -> direct
 
