@@ -270,7 +270,6 @@ layout {
 
 // This line starts waybar, a commonly used bar for Wayland compositors.
 spawn-at-startup "cliphist daemon"
-spawn-at-startup "waybar"
 spawn-at-startup "mako"
 spawn-at-startup "fcitx5"
 spawn-at-startup "localsend"
@@ -282,7 +281,7 @@ environment {
         PROTON_ENABLE_WAYLAND "1"
         PROTON_USE_NTSYNC "1"
 }
-
+spawn-sh-at-startup "waybar -c ~/.config/waybar/niri/config -s ~/.config/waybar/niri/style.css"
 spawn-sh-at-startup "wl-paste --type text --watch  cliphist store"
 spawn-sh-at-startup "wl-paste --type image --watch  cliphist store"
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:

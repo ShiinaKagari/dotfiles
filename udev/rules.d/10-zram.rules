@@ -1,0 +1,4 @@
+KERNEL=="zram0", ACTION=="add", ATTR{initstate}=="0", ATTR{comp_algorithm}="zstd", ATTR{disksize}="8G", RUN+="/usr/bin/mkswap -U clear /dev/%k", TAG+="systemd"
+KERNEL=="zram1", ACTION=="add", ATTR{initstate}=="0", ATTR{comp_algorithm}="zstd", ATTR{disksize}="16G", RUN+="/sbin/mkfs.ext4 -O ^has_journal -L zram1 /dev/%k" TAG+="systemd"
+
+KERNEL=="zram1", ACTION=="add", ENV{ID_FS_TYPE}=="ext4", RUN+="/bin/mkdir -p /mnt/zram1", RUN+="/bin/mount /dev/%k /mnt/zram1"
