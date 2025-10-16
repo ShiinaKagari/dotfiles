@@ -16,13 +16,13 @@
         "hyprland/workspaces"
     ],
     "modules-right": [
-        "tray",
-        "pulseaudio#sink",
-        "wireplumber#source",
-        "backlight",
         "network",
+        "backlight",
         "battery",
+        "wireplumber#sink",
+        "wireplumber#source",
         "power-profiles-daemon",
+        "tray",
         "clock"
     ],
     "hyprland/workspaces": {
@@ -126,25 +126,15 @@
         "on-click-right": "iwgtk",
         "tooltip": true
     },
-    "pulseaudio#sink": {
-        "scroll-step": 5,
+    "wireplumber#sink": {
+        "node-type": "Audio/Sink",
         "format": "{icon} {volume}%",
-        "format-muted": "\ueee8",
-        "format-bluetooth": "{icon}\uf294 {volume}%",
-        "format-bluetooth-muted": "\ueee8 {icon}\uf294",
-        "format-icons": {
-            "default": [
-                "\uf026",
-                "\uf027",
-                "\uf028"
-            ]
-        },
-        "ignored-sinks": [
-            "AudioRelay Virtual Sink",
-            "Recorder Sink"
-        ]
+        "format-icons": ["", "", ""],
+        "format-muted": "",
+        "on-click-right": "pactl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
+        "scroll-step": 5
     },
-    "wireplumber#source": {
+        "wireplumber#source": {
         "node-type": "Audio/Source",
         "format": "󰍬 {volume}%",
         "format-muted": "󰍭",

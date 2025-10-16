@@ -20,29 +20,12 @@
         "network",
         "backlight",
         "battery",
-        "pulseaudio#sink",
+        "wireplumber#sink",
         "wireplumber#source",
         "power-profiles-daemon",
         "tray",
-        "clock",
+        "clock"
     ],
-    "niri/workspaces": {
-        "format": "{icon}",
-        "format-icons": {
-            "1": "\uf30d",
-            "2": "\ue217",
-            "3": "\uf121",
-            "4": "\uf484",
-            "5": "\ue69f",
-            "6": "\uf11b",
-            "7": "\uf013",
-            "8": "\udb80\udfc6",
-            "9": "\udb80\udc32",
-            "10": "\uf327",
-            "11": "\uf302",
-            "12": "\uf17a"
-        }
-    },
     "niri/window": {
         "format": "{app_id}",
         "separate-outputs": false,
@@ -115,25 +98,15 @@
         "on-click-right": "iwgtk",
         "tooltip": true
     },
-    "pulseaudio#sink": {
-        "scroll-step": 5,
+    "wireplumber#sink": {
+        "node-type": "Audio/Sink",
         "format": "{icon} {volume}%",
-        "format-muted": "\ueee8",
-        "format-bluetooth": "{icon}\uf294 {volume}%",
-        "format-bluetooth-muted": "\ueee8 {icon}\uf294",
-        "format-icons": {
-            "default": [
-                "\uf026",
-                "\uf027",
-                "\uf028"
-            ]
-        },
-        "ignored-sinks": [
-            "AudioRelay Virtual Sink",
-            "Recorder Sink"
-        ]
+        "format-icons": ["", "", ""],
+        "format-muted": "",
+        "on-click-right": "pactl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
+        "scroll-step": 5
     },
-    "wireplumber#source": {
+        "wireplumber#source": {
         "node-type": "Audio/Source",
         "format": "󰍬 {volume}%",
         "format-muted": "󰍭",
