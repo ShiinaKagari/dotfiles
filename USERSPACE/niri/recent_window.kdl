@@ -1,0 +1,28 @@
+recent-windows {
+    // off
+    debounce-ms 750
+
+    open-delay-ms 150
+
+    highlight {
+        active-color "#999999ff"
+        urgent-color "#ff9999ff"
+        padding 16
+        corner-radius 32
+    }
+
+    previews {
+        max-height 720
+        max-scale 0.5
+    }
+
+    binds {
+        Alt+Tab         { next-window; }
+        Alt+Shift+Tab   { previous-window; }
+
+
+        Mod+Tab         { next-window; }
+        Mod+Shift+Tab   { previous-window; }
+
+    }
+}

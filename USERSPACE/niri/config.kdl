@@ -1,0 +1,61 @@
+include "keybind.kdl"
+include "recent_window.kdl"
+include "window_rule.kdl"
+include "input.kdl"
+include "output.kdl"
+include "layout.kdl"
+// Settings that influence how windows are positioned and sized.
+// Find more information on the wiki:
+// https://yalter.github.io/niri/Configuration:-Layout
+
+// Add lines like this to spawn processes at startup.
+// Note that running niri as a session supports xdg-desktop-autostart,
+// which may be more convenient to use.
+// See the binds section below for more spawn examples.
+
+// This line starts waybar, a commonly used bar for Wayland compositors.
+environment {
+       	DISPLAY ":0"
+        PROTON_ENABLE_WAYLAND "1"
+        PROTON_USE_NTSYNC "1"
+        VDPAU_DRIVER "radeonsi"
+        _JAVA_AWT_WM_NONREPARENTING "1"
+        GTK_IM_MODULE "fcitx"
+}
+xwayland-satellite
+spawn-sh-at-startup "gnome-keyring-daemon --start --components=secrets"
+spawn-at-startup "swayidle"
+spawn-at-startup "swww-daemon"
+spawn-sh-at-startup "swww img Pictures/WallPaper/1.jpg --resize=crop"
+spawn-at-startup "cliphist daemon"
+spawn-sh-at-startup "wl-paste --type text --watch  cliphist store"
+spawn-sh-at-startup "wl-paste --type image --watch  cliphist store"
+spawn-sh-at-startup "fcitx5 -d"
+
+// To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
+// spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
+
+hotkey-overlay {
+     skip-at-startup
+}
+prefer-no-csd
+
+// You can change the path where screenshots are saved.
+// A ~ at the front will be expanded to the home directory.
+// The path is formatted with strftime(3) to give you the screenshot date and time.
+// screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+// You can also set this to null to disable saving screenshots to disk.
+screenshot-path null
+
+// Animation settings.
+// The wiki explains how to configure individual animations:
+// https://yalter.github.io/niri/Configuration:-Animations
+animations {
+    // Uncomment to turn off all animations.
+    // off
+
+    // Slow down all animations by this factor. Values below 1 speed them up instead.
+    slowdown 1.5
+}
+

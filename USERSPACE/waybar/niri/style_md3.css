@@ -1,0 +1,105 @@
+* {
+    font-size: 13px;
+    font-family: "NotoSansM Nerd Font Mono", "monospace";
+    transition-property: background, transform;
+    transition-duration: 0.3s;
+}
+
+/* Styling for modules */
+#window,
+#workspaces,
+#Status,
+#clock,
+#mpris,
+#network,
+#Media,
+#Power,
+#tray {
+    border-radius: 8px;
+    background-color: rgba(18, 18, 18, 0.9);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+    padding: 2px 2px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+window#waybar {
+    background-color: transparent;
+    border-bottom: 0px solid @unfocused_borders;
+    color: @theme_text_color;
+}
+
+
+#workspaces button {
+    border-radius: 4px;
+    padding: 4px 4px;
+    background: transparent;
+    color: #ffffff;
+    margin: 0 2px;
+    transition: all 0.3s ease-in-out;
+}
+
+#workspaces button:hover {
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#workspaces button.active {
+    color: #ffffff;
+    background-color: grey;
+    border-bottom: 2px solid #ffffff;
+}
+
+#mode {
+    background-color: #64727D;
+    border-bottom: 2px solid #ffffff;
+}
+
+#clock {
+    color: #eefff1;
+}
+
+#Status {
+    color: #FFEAAA;
+}
+
+#pulseaudio {
+    color: #a4e4fe;
+}
+
+#network {
+    color: #b0f5e5;
+}
+
+#Power {
+    color: #f1fe8b;
+}
+
+
+#power-profiles-daemon {
+    font-size: 24px;
+}
+
+#power-profiles-daemon.performance {
+    color: red;
+}
+
+#power-profiles-daemon.balanced {
+    color: yellow;
+}
+
+#power-profiles-daemon.power-saver {
+    color: yellowgreen;
+}
+
+#wireplumber {
+    color: #a4e4fe;
+}
+
+#mpris {
+    color: #a4e4fe;
+}
+
+#window {
+    color: #b0f5e5;
+}
