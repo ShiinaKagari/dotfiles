@@ -6,7 +6,8 @@
 // Remember to uncomment the node by removing "/-"!
 output "DP-1" {
     // off
- mode "2560x1440@119.998"
+focus-at-startup
+mode "2560x1440@119.998"
 variable-refresh-rate on-demand=true
  scale 1
     transform "normal"

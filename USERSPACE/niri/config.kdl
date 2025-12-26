@@ -4,41 +4,16 @@ include "window_rule.kdl"
 include "input.kdl"
 include "output.kdl"
 include "layout.kdl"
-// Settings that influence how windows are positioned and sized.
-// Find more information on the wiki:
-// https://yalter.github.io/niri/Configuration:-Layout
+include "env.kdl"
+include "startup.kdl"
 
-// Add lines like this to spawn processes at startup.
-// Note that running niri as a session supports xdg-desktop-autostart,
-// which may be more convenient to use.
-// See the binds section below for more spawn examples.
-
-// This line starts waybar, a commonly used bar for Wayland compositors.
-environment {
-       	DISPLAY ":0"
-        PROTON_ENABLE_WAYLAND "1"
-        PROTON_USE_NTSYNC "1"
-        VDPAU_DRIVER "radeonsi"
-        _JAVA_AWT_WM_NONREPARENTING "1"
-        GTK_IM_MODULE "fcitx"
-}
-xwayland-satellite
-spawn-sh-at-startup "gnome-keyring-daemon --start --components=secrets"
-spawn-at-startup "swayidle"
-spawn-at-startup "swww-daemon"
-spawn-sh-at-startup "swww img Pictures/WallPaper/1.jpg --resize=crop"
-spawn-at-startup "cliphist daemon"
-spawn-sh-at-startup "wl-paste --type text --watch  cliphist store"
-spawn-sh-at-startup "wl-paste --type image --watch  cliphist store"
-spawn-sh-at-startup "fcitx5 -d"
-
-// To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
-// spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 
 hotkey-overlay {
      skip-at-startup
 }
 prefer-no-csd
+
+// ScrennShot
 
 // You can change the path where screenshots are saved.
 // A ~ at the front will be expanded to the home directory.
@@ -59,3 +34,9 @@ animations {
     slowdown 1.5
 }
 
+// Disable the hot corners.
+gestures {
+    hot-corners {
+        off
+    }
+}
